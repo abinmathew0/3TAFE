@@ -1,0 +1,79 @@
+:root {
+  --primary-color: #0078d4;
+  --bg-color: #f3f2f1;
+  --card-bg: #ffffff;
+  --text-color: #323130;
+  --error-color: #a80000;
+  --success-color: #107c10;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+header h1 {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.status.ok { color: var(--success-color); }
+.status.error { color: var(--error-color); }
+.status.pending { color: orange; }
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+}
+
+.todo-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.todo-list li.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.error-msg {
+  color: var(--error-color);
+  background: #fde7e9;
+  padding: 1rem;
+  border-radius: 4px;
+}
