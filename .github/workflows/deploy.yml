@@ -1,0 +1,56 @@
+name: Build and deploy React app to Azure Web App
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.x' # Using LTS for better stability on Azure
+
+      - name: npm install and build
+        run: |
+          npm install
+          npm run build
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-app
+          path: dist # IMPORTANT: This ensures only the compiled app is sent, not the source code
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: react-app
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9AC4E5AB726A4722BD6CEC154150B7CE }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2E21595BCA364924A97B4D5D5D1F949D }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9D56B73C4223460595C02414926489C7 }}
+
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'app-frontend-dev-3tier'
+          slot-name: 'Production'
+          package: . # This is '.' because the artifact already only contains the /dist folder content
