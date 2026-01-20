@@ -59,7 +59,7 @@ function App() {
         try {
             // Optimistic update
             const updatedTasks = tasks.map(t =>
-                t.id === id ? { ...t, completed: !currentStatus } : t
+                t.Id === id ? { ...t, IsCompleted: !currentStatus } : t
             );
             setTasks(updatedTasks);
 
@@ -83,7 +83,7 @@ function App() {
                 method: 'DELETE'
             });
             if (!response.ok) throw new Error('Failed to delete task');
-            setTasks(tasks.filter(t => t.id !== id));
+            setTasks(tasks.filter(t => t.Id !== id));
         } catch (err) {
             console.error(err);
             alert(err.message);
@@ -142,14 +142,14 @@ function App() {
                         {!loading && !error && (
                             <ul className="todo-list">
                                 {tasks.map((task) => (
-                                    <li key={task.id} className={`todo-item ${task.completed ? 'completed' : ''}`}>
-                                        <div className="todo-content" onClick={() => handleToggle(task.id, task.completed)}>
+                                    <li key={task.Id} className={`todo-item ${task.IsCompleted ? 'completed' : ''}`}>
+                                        <div className="todo-content" onClick={() => handleToggle(task.Id, task.IsCompleted)}>
                                             <div className="checkbox">
-                                                {task.completed && '✓'}
+                                                {task.IsCompleted && '✓'}
                                             </div>
-                                            <span>{task.title}</span>
+                                            <span>{task.Title}</span>
                                         </div>
-                                        <button className="delete-btn" onClick={() => handleDelete(task.id)}>
+                                        <button className="delete-btn" onClick={() => handleDelete(task.Id)}>
                                             ✕
                                         </button>
                                     </li>
